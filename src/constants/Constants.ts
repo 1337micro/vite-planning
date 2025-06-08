@@ -1,0 +1,6 @@
+export const EVENTS = {
+    SEND_VOTE: 'SEND_VOTE',
+
+    START_GAME: 'START_GAME',
+    GAME_STARTED: 'GAME_STARTED'
+}

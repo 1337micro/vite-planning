@@ -1,16 +1,16 @@
-import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import useSocket from "./hooks/useSocket.ts";
 import {useVote} from "./hooks/eventHandlers/useVote.ts";
+import {useGame} from "./hooks/eventHandlers/useGame.ts";
 
 import './App.css'
 
 function App() {
   const {socket} = useSocket()
   const {sendVote} = useVote(socket);
-  const [count, setCount] = useState(0)
-
+  const {game, startNewGame} = useGame(socket);
+  console.log(game)
   return (
     <>
       <div>
@@ -23,8 +23,11 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
+        <button onClick={() => startNewGame()}>
+           Start New Game
+      </button>
         <button onClick={() => sendVote(1)}>
-          count is {count}
+            Send Vote
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
