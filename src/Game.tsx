@@ -1,9 +1,12 @@
 import type { Socket } from "socket.io";
 import { useParams } from "react-router";
-import { useJoinGame } from "./hooks/eventHandlers/useJoinGame.ts";
+import Skeleton from "@mui/material/Skeleton";
+import { useJoinRoom } from "./hooks/eventHandlers/useJoinRoom.ts";
 import { Card } from "./components/Card.tsx";
+import { JoinModal } from "./components/JoinModal.tsx";
 import { Table } from "./components/Table.tsx";
 import { VotingBallots } from "./components/VotingBallots.tsx";
+import _ from "lodash";
 
 interface IGameProps {
   socket: Socket;
@@ -11,15 +14,27 @@ interface IGameProps {
 export function Game(props: IGameProps) {
   const { socket } = props;
   const { roomId } = useParams();
+  console.log("RoomID", roomId);
 
-  const { game } = useJoinGame(socket, roomId);
+  const { room, joinRoom } = useJoinRoom(socket, roomId);
 
   return (
     <>
-      <Card voteNumber={1} />
-      <Table />
-      <VotingBallots votingNumbers={[1, 2, 3, 5, 8, 13]} />
-      {JSON.stringify(game)}
+      <JoinModal onJoin={joinRoom} />
+      {_.isNil(room) ? (
+        <Skeleton />
+      ) : (
+        <>
+          <Card voteNumber={1} />
+          <Table />
+          <VotingBallots
+            socket={socket}
+            roomId={roomId}
+            votingNumbers={[1, 2, 3, 5, 8, 13]}
+          />
+        </>
+      )}
+      Game Info: {JSON.stringify(room)}
     </>
   );
 }

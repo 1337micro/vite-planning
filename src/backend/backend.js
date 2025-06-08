@@ -2,7 +2,6 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { EVENTS } from "../constants/Constants.ts";
-import { Game } from "../model/Game.ts";
 import { Room } from "../model/Room.ts";
 import { User } from "../model/User.js";
 
@@ -20,23 +19,23 @@ io.on("connection", (socket) => {
 
   socket.on(EVENTS.START_GAME, function () {
     console.log("Start Game");
-    const game = new Game();
-    socket.emit(EVENTS.GAME_STARTED, game);
+    const room = new Room();
+    //save game to database
+    socket.emit(EVENTS.GAME_STARTED, room);
   });
 
-  socket.on(EVENTS.JOIN_GAME, function (roomId) {
-    console.log("JOIN_GAME");
-    const joiningUser = new User({ id: socket.id });
-    const joinedRoom = new Room({ id: roomId }); //get joined room from db from gameId
+  socket.on(EVENTS.JOIN_GAME, function (roomId, playerName) {
+    console.log("JOIN_GAME", roomId, playerName);
+    const joiningUser = new User({ id: socket.id, name: playerName });
+    const joinedRoom = new Room({ id: roomId }); //get joined room from db from gameId instead
 
-    const game = new Game({ room: joinedRoom });
-    game.room.addUserToGame(joiningUser);
+    joinedRoom.addUserToGame(joiningUser);
 
-    socket.emit(EVENTS.GAME_JOINED, game);
+    socket.emit(EVENTS.GAME_JOINED, joinedRoom);
   });
 
-  socket.on(EVENTS.SEND_VOTE, function (vote) {
-    console.log(vote);
+  socket.on(EVENTS.SEND_VOTE, function (vote, roomId) {
+    console.log("SEND_VOTE", vote, roomId);
   });
 });
 
