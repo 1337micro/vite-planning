@@ -1,14 +1,26 @@
 import sql from '../db.js'
 
 export async function createTables() {
-    return await createRoomTable();
+    await createRoomTable();
+    await createUserTable();
 }
 
 async function createRoomTable() {
     await sql`
-    CREATE TABLE IF NOT EXISTS Room (
+    CREATE TABLE IF NOT EXISTS Rooms (
         id uuid,
         userIds varchar(20)[]
+    )
+  `
+}
+
+
+async function createUserTable() {
+    await sql`
+    CREATE TABLE IF NOT EXISTS Users (
+        id varchar(20),
+        name varchar(128),
+        vote varchar(128)
     )
   `
 }

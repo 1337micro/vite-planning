@@ -4,12 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 
 export interface IRoom {
   id: string;
-  users?: IUser[];
+  users: IUser[];
 }
 
 export class Room implements IRoom {
   id: string;
-  users?: IUser[];
+  users: IUser[];
 
   constructor(room?: IRoom) {
     if (_.isNil(room)) {
