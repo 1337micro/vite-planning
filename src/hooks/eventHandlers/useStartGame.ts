@@ -1,6 +1,6 @@
 import { EVENTS } from "../../constants/Constants.ts";
 import type { Socket } from "socket.io";
-import { useNavigate  } from "react-router";
+import { useNavigate } from "react-router";
 
 export function useStartGame(socket: Socket) {
   const navigate = useNavigate();
@@ -10,9 +10,9 @@ export function useStartGame(socket: Socket) {
   };
 
   socket.on(EVENTS.GAME_STARTED, (game) => {
-    console.log('redirecting to ', game.room.id)
+    console.log("redirecting to ", game.room.id);
     navigate(`/${game.room.id}`);
-  })
+  });
 
   return { startNewGame };
 }

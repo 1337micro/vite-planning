@@ -16,7 +16,7 @@ io.on("connection", (socket) => {
   console.log("Connected");
 
   let session = socket.handshake.session;
-  console.log('socket', socket)
+  console.log("socket", socket);
 
   socket.on(EVENTS.START_GAME, function () {
     console.log("Start Game");
@@ -26,10 +26,10 @@ io.on("connection", (socket) => {
 
   socket.on(EVENTS.JOIN_GAME, function (roomId) {
     console.log("JOIN_GAME");
-    const joiningUser = new User({id: socket.id});
-    const joinedRoom = new Room({id: roomId}); //get joined room from db from gameId
+    const joiningUser = new User({ id: socket.id });
+    const joinedRoom = new Room({ id: roomId }); //get joined room from db from gameId
 
-    const game = new Game({room: joinedRoom});
+    const game = new Game({ room: joinedRoom });
     game.room.addUserToGame(joiningUser);
 
     socket.emit(EVENTS.GAME_JOINED, game);
