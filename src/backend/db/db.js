@@ -1,5 +1,5 @@
 import postgres from 'postgres'
-console.log(process.env.DB_PASS, `postgres://postgres:${process.env.DB_PASS}@localhost:5432/postgres`)
+
 const sql = postgres({
   host                 : 'localhost',            // Postgres ip address[s] or domain name[s]
   port                 : 5432,          // Postgres server port[s]
