@@ -1,9 +1,11 @@
+import 'dotenv/config'
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { EVENTS } from "../constants/Constants.ts";
 import { Room } from "../model/Room.ts";
 import { User } from "../model/User.js";
+import {createTables} from "./db/creation/createTables";
 
 const app = express();
 const httpServer = createServer(app);
@@ -11,11 +13,19 @@ const io = new Server(httpServer, {
   /* options */
 });
 
+createTables()
+  .then(result => {
+      console.log('Success', results)
+    })
+.catch(error => {
+  console.error("Could not create tables ", error)
+})
+
 io.on("connection", (socket) => {
   console.log("Connected");
 
   let session = socket.handshake.session;
-  console.log("socket", socket);
+  //console.log("socket", socket);
 
   socket.on(EVENTS.START_GAME, function () {
     console.log("Start Game");
