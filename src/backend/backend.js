@@ -16,12 +16,17 @@ io.on("connection", (socket) => {
       let session = socket.handshake.session;
 
       socket.on(EVENTS.START_GAME, function () {
-        const user = new User();
-
         const game = new Game();
-        game.room.addUserToGame(user)
-
         socket.emit(EVENTS.GAME_STARTED, game);
+      })
+
+      socket.on(EVENTS.JOIN_GAME, function (gameId) {
+        const user = new User();
+        const game = new Game();//get game from db
+
+        game.room.addUserToGame(user)
+        
+        socket.emit(EVENTS.GAME_JOINED, game);
       })
 
       socket.on(EVENTS.SEND_VOTE, function(vote){
