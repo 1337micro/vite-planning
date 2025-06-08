@@ -1,13 +1,15 @@
-import type {Socket} from "socket.io";
-import {useParams} from "react-router";
-import {SocketContext} from "./context/SocketContext.ts";
+import type { Socket } from "socket.io";
+import { useParams } from "react-router";
+import {useJoinGame} from "./hooks/eventHandlers/useJoinGame.ts";
 
-export function Game() {
-    const socket: Socket = useContext(SocketContext);
-    const {gameId} = useParams();
+interface IGameProps {
+    socket: Socket
+}
+export function Game(props: IGameProps) {
+  const {socket} = props;
+  const { roomId } = useParams();
 
-    const {game} = useJoinGame(socket, gameId)
-    return (
-        <>{JSON.stringify(game)}</>
-    )
+  const { game } = useJoinGame(socket, roomId);
+
+  return <>{JSON.stringify(game)}</>;
 }

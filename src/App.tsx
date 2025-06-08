@@ -1,31 +1,27 @@
-import {useVote} from "./hooks/eventHandlers/useVote.ts";
-import {useStartGame} from "./hooks/eventHandlers/useStartGame.ts";
+import { useVote } from "./hooks/eventHandlers/useVote.ts";
+import { useStartGame } from "./hooks/eventHandlers/useStartGame.ts";
 
-import {useContext} from "react";
-import {SocketContext} from "./context/SocketContext.ts";
+import type { Socket } from "socket.io";
 
-import './App.css'
+import "./App.css";
 
+interface IAppProps {
+  socket: Socket;
+}
+function App(props: IAppProps) {
+  const { socket } = props;
 
+  console.log("socket ", socket);
 
-function App() {
-  const {socket} = useContext(SocketContext)
-    console.log('socket ', socket)
-
-  const {sendVote} = useVote(socket);
-  const {startNewGame} = useStartGame(socket);
+  const { sendVote } = useVote(socket);
+  const { startNewGame } = useStartGame(socket);
 
   return (
-<>
-        <button onClick={() => startNewGame()}>
-           Start New Game
-      </button>
-        <button onClick={() => sendVote(1)}>
-            Send Vote
-        </button>
-
+    <>
+      <button onClick={() => startNewGame()}>Start New Game</button>
+      <button onClick={() => sendVote(1)}>Send Vote</button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
