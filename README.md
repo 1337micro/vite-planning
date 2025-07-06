@@ -1,10 +1,10 @@
 A Planning Poker Application for Agile teams. See LICENSE.
 
-To run the backend.js:
+To run the app:
 
-1) cd .\src\backend
-2) node --import=tsx .\backend.js
-
-Run nginx with the nginx.conf file herein.
-
-then docker compose up
+1) vite
+2) cd .\src\backend
+3) node --import=tsx .\backend.js
+4) Run nginx with the nginx.conf file herein.
+5) then docker compose up
+6) Navigate to localhost:80 (not localhost:5173)

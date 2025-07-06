@@ -9,14 +9,14 @@ import type { Socket } from "socket.io";
 
 import "./index.css";
 
-const socket: Socket = io();
+const socket: Socket = io(`http://${window.location.hostname}:80`);
 
 socket.on("connect", () => {
-  console.log("SOCKET ID ", socket.id); // x8WIv7-mJelg7on_ALbx
+  console.log("Socket Connected", socket.id); // x8WIv7-mJelg7on_ALbx
 });
 
 socket.on("disconnect", () => {
-  console.log(socket.id); // undefined
+  console.log('Socket Disconnected', socket.id); // undefined
 });
 
 const router = createBrowserRouter([
