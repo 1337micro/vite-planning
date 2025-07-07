@@ -1,16 +1,35 @@
 import sql from './db.js'
 import type { IRoom } from "../../model/Room.ts";
+import type { IUser } from "../../model/User.ts";
 
 
 export async function getRoomById(roomId: string){
   console.log('roomId in getRoomById', roomId)
-    const room = await sql`
+  const [room, users] = await sql.begin(async sql => {
+    const [room] = await sql`
     select
-      room
+      id, userids
     from Rooms
-    where id == ${roomId}
+    where id = ${roomId}
   `
-  console.log("Fetched room", room)
+
+  const listOfUserIds = room.userids.reduce((prev, curr) => prev+ `"${curr}",`, '')
+
+  let users;
+
+  if(listOfUserIds) {
+    users = await sql`
+      select
+        id, name, vote
+      from Users
+      where id IN (${room.userids})
+    `
+  }
+
+    return [room, users]
+  });
+
+  room.users = users;
   return room
 }
 
@@ -28,9 +47,20 @@ export async function saveRoom(room: IRoom){
 
     await sql`
     UPDATE Rooms
-      SET userIds = ${userIds}
+      SET userids = ${userIds}
 
     where id = ${room.id}
   `
 }
+
+
+export async function createUser(user: IUser){
+  console.log('user in saveUser', user)
+
+    await sql`
+    INSERT INTO Users (id, name) VALUES (${user.id}, ${user.name})
+    ON CONFLICT (id) DO NOTHING
+  `
+}
+
 

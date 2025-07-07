@@ -6,7 +6,7 @@ import { EVENTS } from "../constants/Constants.ts";
 import { Room } from "../model/Room.ts";
 import { User } from "../model/User.js";
 import {createTables} from "./db/creation/createTables";
-import {createRoom, getRoomById, saveRoom} from "./db/dbquery.js";
+import { createRoom, createUser, getRoomById, saveRoom } from "./db/dbquery.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -39,10 +39,14 @@ io.on("connection", (socket) => {
   socket.on(EVENTS.JOIN_GAME, async function (roomId, playerName) {
     console.log("JOIN_GAME", roomId, playerName);
     const joiningUser = new User({ id: socket.id, name: playerName });
-    const joinedRoom = new Room({ id: roomId }); //get joined room from db from gameId instead
+    await createUser(joiningUser); //Save this new user to DB
+
+    const joinedRoomFromDb = await getRoomById(roomId); //get this room from DB
+    const joinedRoom = new Room(joinedRoomFromDb);
     joinedRoom.addUserToGame(joiningUser);
     console.log("joinedRoom", joinedRoom);
     await saveRoom(joinedRoom);
+
     socket.emit(EVENTS.GAME_JOINED, joinedRoom);
   });
 

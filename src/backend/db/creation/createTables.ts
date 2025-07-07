@@ -8,7 +8,7 @@ export async function createTables() {
 async function createRoomTable() {
     await sql`
     CREATE TABLE IF NOT EXISTS Rooms (
-        id uuid,
+        id uuid UNIQUE,
         userIds varchar(20)[]
     )
   `
@@ -18,7 +18,7 @@ async function createRoomTable() {
 async function createUserTable() {
     await sql`
     CREATE TABLE IF NOT EXISTS Users (
-        id varchar(20),
+        id varchar(20) UNIQUE,
         name varchar(128),
         vote varchar(128)
     )
