@@ -6,4 +6,6 @@ export const EVENTS = {
 
   JOIN_GAME: "JOIN_GAME",
   GAME_JOINED: "GAME_JOINED",
+
+  UPDATE_GAME: "UPDATE_GAME"
 };

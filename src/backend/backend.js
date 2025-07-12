@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
     //save game to database
     await createRoom(room);
     socket.emit(EVENTS.GAME_STARTED, room);
+    socket.join(room.id);// Join a socket.io "room" for easier broadcasting of events to other sockets
   });
 
   socket.on(EVENTS.JOIN_GAME, async function (roomId, playerName) {
@@ -47,7 +48,9 @@ io.on("connection", (socket) => {
     console.log("joinedRoom", joinedRoom);
     await saveRoom(joinedRoom);
 
-    socket.emit(EVENTS.GAME_JOINED, joinedRoom);
+    io.to(joinedRoom.id).emit(EVENTS.UPDATE_GAME, joinedRoom); //Let all other users in the room know that this player has joined successfully
+    socket.emit(EVENTS.GAME_JOINED, joinedRoom);//Let this player know that he has successfully joined the room
+
   });
 
   socket.on(EVENTS.SEND_VOTE, function (vote, roomId) {

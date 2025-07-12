@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { useStartGame } from "./hooks/eventHandlers/useStartGame.ts";
-import { NameInput } from "./components/NameInput";
 import Button from "@mui/material/Button";
 
 import type { Socket } from "socket.io";

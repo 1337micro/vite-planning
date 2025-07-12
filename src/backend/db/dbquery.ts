@@ -13,7 +13,7 @@ export async function getRoomById(roomId: string){
     where id = ${roomId}
   `
 
-  const listOfUserIds = room.userids.reduce((prev, curr) => prev+ `"${curr}",`, '')
+  const listOfUserIds = room.userids?.reduce((prev, curr) => prev+ `"${curr}",`, '')
 
   let users;
 

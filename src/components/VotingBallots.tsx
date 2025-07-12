@@ -9,7 +9,7 @@ interface IVotingBallotsProps {
   votingNumbers: number[];
 }
 
-export function VotingBallots(props: IVotingBallotsProps = {}) {
+export function VotingBallots(props: IVotingBallotsProps) {
   const { socket, roomId, votingNumbers } = props;
 
   const { sendVote } = useVote(socket, roomId);

@@ -2,7 +2,6 @@ import type { Socket } from "socket.io";
 import { useParams } from "react-router";
 import Skeleton from "@mui/material/Skeleton";
 import { useJoinRoom } from "./hooks/eventHandlers/useJoinRoom.ts";
-import { Card } from "./components/Card.tsx";
 import { JoinModal } from "./components/JoinModal.tsx";
 import { Table } from "./components/Table.tsx";
 import { VotingBallots } from "./components/VotingBallots.tsx";
@@ -14,19 +13,17 @@ interface IGameProps {
 export function Game(props: IGameProps) {
   const { socket } = props;
   const { roomId } = useParams();
-  console.log("RoomID", roomId);
 
   const { room, joinRoom } = useJoinRoom(socket, roomId);
 
   return (
-    <>
+    <div style={{height: '100%', width: '100%'}}>
       <JoinModal onJoin={joinRoom} />
       {_.isNil(room) ? (
         <Skeleton />
       ) : (
         <>
-          <Card voteNumber={1} />
-          <Table />
+          <Table room={room}/>
           <VotingBallots
             socket={socket}
             roomId={roomId}
@@ -35,6 +32,6 @@ export function Game(props: IGameProps) {
         </>
       )}
       Game Info: {JSON.stringify(room)}
-    </>
+    </div>
   );
 }

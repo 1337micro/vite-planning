@@ -2,7 +2,7 @@ import type { IUser } from "./User";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
-//The room as stored in the databse
+//The room as stored in the database
 export interface IRoomDB {
   id: string;
   userIds: string[];
