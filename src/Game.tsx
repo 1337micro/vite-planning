@@ -31,7 +31,6 @@ export function Game(props: IGameProps) {
           />
         </>
       )}
-      Game Info: {JSON.stringify(room)}
     </div>
   );
 }

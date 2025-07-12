@@ -27,7 +27,7 @@ export function Table(props: TableProps) {
       <Grid container>
       {users.map( (user, userIndex) => {
         const indexIsEven = userIndex % 2 === 0;
-        return indexIsEven ? <Grid>
+        return indexIsEven ? <Grid sx={{marginBottom: 2}}>
           <VotingCard
             style={{
               position: 'relative',
@@ -57,11 +57,11 @@ export function Table(props: TableProps) {
         <Grid container>
           {users.map( (user, userIndex) => {
             const indexIsEven = userIndex % 2 === 0;
-            return !indexIsEven ? <Grid>
+            return !indexIsEven ? <Grid sx={{marginTop: 2}}>
               <VotingCard
                 style={{
                   position: 'relative',
-                  left: 30 * userIndex
+                  left: 30 * userIndex,
                 }}
                 playerName={user.name}
                 voteNumber={user.vote}
