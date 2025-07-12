@@ -1,6 +1,7 @@
 import Card from "@mui/material/Card";
 import type { IRoom } from "../model/Room.ts";
 import { VotingCard } from "./VotingCard.tsx";
+import Grid from '@mui/material/Grid';
 
 interface TableProps {
   room: IRoom
@@ -8,25 +9,40 @@ interface TableProps {
 export function Table(props: TableProps) {
   const {room} = props;
 
-  const users = room?.users;
+  const users =  [
+    {id: "s4Md1mdryEO9V5i0AAAD", name: "fyjgdfk", vote: null},
+  {id: "gVvF-SnyPu8TxhC_AAAF", name: "dftgyjdtgfy", vote: undefined},
+  {id: "gVvF-SnyPu8TxhC_AAAF", name: "dftgyjdtgfy", vote: undefined},
+  {id: "gVvF-SnyPu8TxhC_AAAF", name: "dftgyjdtgfy", vote: undefined},
+  {id: "gVvF-SnyPu8TxhC_AAAF", name: "dftgyjdtgfy", vote: undefined},
+
+    ]
+  //room?.users;
 
   return (
     <div style={{
-           height: "25rem",
-           width: "34rem"
-         }}>
+      marginBottom: "30px"
+    }}>
+
+      <Grid container>
       {users.map( (user, userIndex) => {
         const indexIsEven = userIndex % 2 === 0;
-        return <>
+        return indexIsEven ? <Grid>
           <VotingCard
             style={{
               position: 'relative',
-              bottom: indexIsEven ? '100%': 0
+              left: 30 * userIndex
             }}
+            playerName={user.name}
             voteNumber={user.vote}
           />
-        </>
+        </Grid> : null
       })}
+      </Grid>
+
+
+        <Grid container>
+          <Grid>
     <Card
       sx={{
         borderRadius: "3rem",
@@ -35,6 +51,25 @@ export function Table(props: TableProps) {
         width: "34rem",
       }}
     ></Card>
+            </Grid >
+        </Grid>
+
+        <Grid container>
+          {users.map( (user, userIndex) => {
+            const indexIsEven = userIndex % 2 === 0;
+            return !indexIsEven ? <Grid>
+              <VotingCard
+                style={{
+                  position: 'relative',
+                  left: 30 * userIndex
+                }}
+                playerName={user.name}
+                voteNumber={user.vote}
+              />
+            </Grid> : null
+          })}
+      </Grid>
+
     </div>
   );
 }

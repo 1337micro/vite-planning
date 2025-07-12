@@ -4,11 +4,13 @@ import { CardStyle } from "./styles/CardStyle.ts";
 interface ICardProps {
   style?: object;
   voteNumber?: number;
+  playerName?: string;
 }
 export function VotingCard(props: ICardProps = {}) {
-  const { style = {}, voteNumber } = props;
+  const { style = {}, voteNumber, playerName } = props;
 
-  const newStyle = {...CardStyle, ...style};
-
-  return <Button sx={newStyle}>{voteNumber}</Button>;
+  return <span style={style}>
+    <Button sx={CardStyle}>{voteNumber}</Button>
+    <div>{playerName}</div>
+  </span>;
 }

@@ -2,6 +2,7 @@ import { CardStyle } from "./styles/CardStyle.ts";
 import Button from "@mui/material/Button";
 import type { Socket } from "socket.io";
 import { useVote } from "../hooks/eventHandlers/useVote.ts";
+import Grid from "@mui/material/Grid";
 
 interface IVotingBallotsProps {
   socket: Socket;
@@ -15,7 +16,7 @@ export function VotingBallots(props: IVotingBallotsProps) {
   const { sendVote } = useVote(socket, roomId);
 
   return (
-    <>
+    <Grid container spacing={2}>
       {votingNumbers.map((voteNumber) => {
         return (
           <Button
@@ -27,6 +28,6 @@ export function VotingBallots(props: IVotingBallotsProps) {
           </Button>
         );
       })}
-    </>
+    </Grid>
   );
 }
