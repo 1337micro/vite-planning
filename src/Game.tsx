@@ -23,11 +23,11 @@ export function Game(props: IGameProps) {
         <Skeleton />
       ) : (
         <>
-          <Table room={room} />
+          <Table room={room} socket={socket} />
           <VotingBallots
             socket={socket}
+            votes={["0", "1", "2", "3", "5", "8", "13"]}
             roomId={roomId}
-            votingNumbers={[1, 2, 3, 5, 8, 13]}
           />
         </>
       )}

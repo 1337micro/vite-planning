@@ -6,7 +6,13 @@ import { EVENTS } from "../constants/Constants.ts";
 import { Room } from "../model/Room.ts";
 import { User } from "../model/User.js";
 import { createTables } from "./db/creation/createTables";
-import { createRoom, createUser, getRoomById, saveRoom } from "./db/dbquery.js";
+import {
+  createRoom,
+  createUser,
+  getRoomById,
+  saveRoom,
+  sendVote,
+} from "./db/dbquery.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -16,7 +22,7 @@ const io = new Server(httpServer, {
 
 createTables()
   .then((result) => {
-    console.log("Success", result);
+    console.log("Successfully created tables, or tables already created");
   })
   .catch((error) => {
     console.error("Could not create tables ", error);
@@ -26,7 +32,7 @@ io.on("connection", (socket) => {
   console.log("Connected");
 
   let session = socket.handshake.session;
-  //console.log("socket", socket);
+  console.log("session", session);
 
   socket.on(EVENTS.START_GAME, async function () {
     console.log("Start Game");
@@ -52,8 +58,14 @@ io.on("connection", (socket) => {
     socket.emit(EVENTS.GAME_JOINED, joinedRoom); //Let this player know that he has successfully joined the room
   });
 
-  socket.on(EVENTS.SEND_VOTE, function (vote, roomId) {
-    console.log("SEND_VOTE", vote, roomId);
+  socket.on(EVENTS.SEND_VOTE, async function (userId, roomId, vote) {
+    console.log("SEND_VOTE", userId, vote);
+    await sendVote(userId, vote);
+
+    const roomFromDb = await getRoomById(roomId); //get this room from DB
+    const room = new Room(roomFromDb);
+    console.log("New room", roomFromDb, room);
+    socket.emit(EVENTS.UPDATE_GAME, room); //Send the updated room to this player
   });
 });
 

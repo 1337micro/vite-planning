@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 export interface IUser {
   id: string;
   name: string;
-  vote?: IVote | null;
+  vote: IVote | null;
 }
 
 export class User implements IUser {
   id: string;
   name: string;
-  vote?: IVote | null;
+  vote: IVote | null;
 
   constructor(user?: IUser) {
     if (_.isNil(user)) {

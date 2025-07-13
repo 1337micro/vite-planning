@@ -2,6 +2,7 @@ import sql from "./db.js";
 import type { IRoom } from "../../model/Room.ts";
 import type { IUser } from "../../model/User.ts";
 
+//Room management
 export async function getRoomById(roomId: string) {
   console.log("roomId in getRoomById", roomId);
   const [room, users] = await sql.begin(async (sql) => {
@@ -47,11 +48,21 @@ export async function saveRoom(room: IRoom) {
   `;
 }
 
+//User management
 export async function createUser(user: IUser) {
   console.log("user in saveUser", user);
 
   await sql`
     INSERT INTO Users (id, name) VALUES (${user.id}, ${user.name})
     ON CONFLICT (id) DO NOTHING
+  `;
+}
+
+//Voting
+export async function sendVote(userId: string, vote: string) {
+  console.log("sendVote", userId, vote);
+
+  await sql`
+    UPDATE Users SET vote = ${vote} WHERE id = ${userId}
   `;
 }

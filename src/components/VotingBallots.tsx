@@ -1,4 +1,4 @@
-import { CardStyle } from "./styles/CardStyle.ts";
+import { getVotingBallotCardStyle } from "./styles/GetPlayerCardStyle.ts";
 import Button from "@mui/material/Button";
 import type { Socket } from "socket.io";
 import { useVote } from "../hooks/eventHandlers/useVote.ts";
@@ -6,23 +6,25 @@ import Grid from "@mui/material/Grid";
 
 interface IVotingBallotsProps {
   socket: Socket;
+  votes: string[];
   roomId: string;
-  votingNumbers: number[];
 }
 
 export function VotingBallots(props: IVotingBallotsProps) {
-  const { socket, roomId, votingNumbers } = props;
+  const { socket, votes, roomId } = props;
 
-  const { sendVote } = useVote(socket, roomId);
+  const { sendVote, selectedBallot } = useVote(socket, roomId);
 
   return (
     <Grid container spacing={2}>
-      {votingNumbers.map((voteNumber) => {
+      {votes.map((voteNumber) => {
         return (
           <Button
             key={voteNumber}
-            sx={CardStyle}
-            onClick={() => sendVote(voteNumber)}
+            sx={getVotingBallotCardStyle(selectedBallot === voteNumber)}
+            onClick={() => {
+              sendVote(voteNumber);
+            }}
           >
             {voteNumber}
           </Button>

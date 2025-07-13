@@ -1,18 +1,30 @@
 import Button from "@mui/material/Button";
-import { CardStyle } from "./styles/CardStyle.ts";
+import { getPlayerCardStyle } from "./styles/GetPlayerCardStyle.ts";
+import type { Socket } from "socket.io";
+import type { IUser } from "../model/User.ts";
+import _ from "lodash";
 
 interface ICardProps {
   style?: object;
-  voteNumber?: number;
-  playerName?: string;
+  socket: Socket;
+  user: IUser;
 }
-export function VotingCard(props: ICardProps = {}) {
-  const { style = {}, voteNumber, playerName } = props;
+export function VotingCard(props: ICardProps) {
+  const { style = {}, user, socket } = props;
 
+  const isCurrentUser = socket.id === user.id;
+  const currentUserSelectedAVote = isCurrentUser && !_.isNil(user.vote);
   return (
-    <span style={style}>
-      <Button sx={CardStyle}>{voteNumber}</Button>
-      <div>{playerName}</div>
+    <span
+      style={{
+        ...style,
+        color: isCurrentUser ? "blue" : "black",
+      }}
+    >
+      <Button sx={getPlayerCardStyle(currentUserSelectedAVote)}>
+        {currentUserSelectedAVote ? user.vote : null}
+      </Button>
+      <h3>{user.name}</h3>
     </span>
   );
 }

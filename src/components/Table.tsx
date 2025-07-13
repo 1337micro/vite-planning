@@ -2,12 +2,14 @@ import Card from "@mui/material/Card";
 import type { IRoom } from "../model/Room.ts";
 import { VotingCard } from "./VotingCard.tsx";
 import Grid from "@mui/material/Grid";
+import type { Socket } from "socket.io";
 
 interface TableProps {
   room: IRoom;
+  socket: Socket;
 }
 export function Table(props: TableProps) {
-  const { room } = props;
+  const { room, socket } = props;
 
   const users = room?.users;
 
@@ -27,8 +29,8 @@ export function Table(props: TableProps) {
                   position: "relative",
                   left: 30 * userIndex,
                 }}
-                playerName={user.name}
-                voteNumber={user.vote}
+                socket={socket}
+                user={user}
               />
             </Grid>
           ) : null;
@@ -58,8 +60,8 @@ export function Table(props: TableProps) {
                   position: "relative",
                   left: 30 * userIndex,
                 }}
-                playerName={user.name}
-                voteNumber={user.vote}
+                socket={socket}
+                user={user}
               />
             </Grid>
           ) : null;
