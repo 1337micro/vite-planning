@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { NameInput } from "./NameInput.tsx";
 import Grid from "@mui/material/Grid";
@@ -39,10 +38,10 @@ export function JoinModal(props: IJoinModalProps = {}) {
         aria-describedby="Enter the player name you wish to use"
       >
         <Box sx={style}>
-          <Grid container>
+          <Grid container justifyContent="center" alignItems="center">
             <NameInput onChange={setPlayerName} />
           </Grid>
-          <Grid container>
+          <Grid container justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
             <Button
               onClick={() => {
                 onJoin(playerName);
