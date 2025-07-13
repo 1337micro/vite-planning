@@ -3,7 +3,6 @@ import type { IRoom } from "../model/Room.ts";
 import { VotingCard } from "./VotingCard.tsx";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import type { Socket } from "socket.io";
 import { useRevealCards } from "../hooks/eventHandlers/useRevealCards.ts";
 import { useParams } from "react-router";
@@ -34,20 +33,6 @@ export function Table(props: TableProps) {
         marginBottom: "30px",
       }}
     >
-      {/* Reveal Cards Button */}
-      {canReveal && (
-        <Box sx={{ textAlign: 'center', mb: 2 }}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            onClick={handleRevealCards}
-            sx={{ mb: 2 }}
-          >
-            Reveal Cards
-          </Button>
-        </Box>
-      )}
-
       <Grid container>
         {users.map((user, userIndex) => {
           const indexIsEven = userIndex % 2 === 0;
@@ -75,8 +60,22 @@ export function Table(props: TableProps) {
               background: "#d7e9ff",
               height: "15rem",
               width: "34rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          ></Card>
+          >
+            {/* Reveal Cards Button - Now inside the blue table */}
+            {canReveal && (
+              <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={handleRevealCards}
+              >
+                Reveal Cards
+              </Button>
+            )}
+          </Card>
         </Grid>
       </Grid>
 
