@@ -33,7 +33,7 @@ export async function getRoomById(roomId: string) {
 export async function createRoom(room: IRoom) {
   console.log("room in createRoom", room);
   await sql`
-    INSERT INTO Rooms (id, revealed) VALUES (${room.id}, ${room.revealed ?? false})
+    INSERT INTO Rooms (id) VALUES (${room.id})
   `;
 }
 
