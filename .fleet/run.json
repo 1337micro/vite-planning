@@ -1,13 +1,11 @@
 {
-    "configurations": [
-        {
-            "type": "node",
-            "name": "Run backend",
-            "nodeOptions": [
-                "--import=tsx"
-            ],
-            "workingDir": "./src/backend",
-            "file": "backend.js"
-        }
-    ]
+  "configurations": [
+    {
+      "type": "node",
+      "name": "Run backend",
+      "nodeOptions": ["--import=tsx"],
+      "workingDir": "./src/backend",
+      "file": "backend.js"
+    }
+  ]
 }

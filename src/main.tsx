@@ -16,7 +16,7 @@ socket.on("connect", () => {
 });
 
 socket.on("disconnect", () => {
-  console.log('Socket Disconnected', socket.id); // undefined
+  console.log("Socket Disconnected", socket.id); // undefined
 });
 
 const router = createBrowserRouter([

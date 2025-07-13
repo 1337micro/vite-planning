@@ -9,8 +9,10 @@ interface ICardProps {
 export function VotingCard(props: ICardProps = {}) {
   const { style = {}, voteNumber, playerName } = props;
 
-  return <span style={style}>
-    <Button sx={CardStyle}>{voteNumber}</Button>
-    <div>{playerName}</div>
-  </span>;
+  return (
+    <span style={style}>
+      <Button sx={CardStyle}>{voteNumber}</Button>
+      <div>{playerName}</div>
+    </span>
+  );
 }

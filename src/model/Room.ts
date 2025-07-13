@@ -35,7 +35,7 @@ export class Room implements IRoom {
   toDb() {
     return {
       id: this.id,
-      userIds: this.users.map(u => u.id)
-    }
+      userIds: this.users.map((u) => u.id),
+    };
   }
 }

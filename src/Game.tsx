@@ -17,13 +17,13 @@ export function Game(props: IGameProps) {
   const { room, joinRoom } = useJoinRoom(socket, roomId);
 
   return (
-    <div style={{height: '100%', width: '100%'}}>
+    <div style={{ height: "100%", width: "100%" }}>
       <JoinModal onJoin={joinRoom} />
       {_.isNil(room) ? (
         <Skeleton />
       ) : (
         <>
-          <Table room={room}/>
+          <Table room={room} />
           <VotingBallots
             socket={socket}
             roomId={roomId}
