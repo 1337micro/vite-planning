@@ -9,7 +9,9 @@ import { createTables } from "./db/creation/createTables";
 import {
   createRoom,
   createUser,
+  deleteUser,
   getRoomById,
+  getUserById,
   saveRoom,
   sendVote,
 } from "./db/dbquery.js";
@@ -34,18 +36,37 @@ io.on("connection", (socket) => {
   let session = socket.handshake.session;
   console.log("session", session);
 
+  socket.on("disconnect", async function () {
+    console.log("Socket disconnected", socket.id);
+    const userId = socket.id;
+    const user = await getUserById(userId);
+
+    await deleteUser(userId);
+
+    if (user) {
+      const roomId = user.roomid;
+      await emitGameUpdate(roomId);
+    }
+  });
+
   socket.on(EVENTS.START_GAME, async function () {
     console.log("Start Game");
     const room = new Room();
     //save game to database
     await createRoom(room);
     socket.emit(EVENTS.GAME_STARTED, room);
-    socket.join(room.id); // Join a socket.io "room" for easier broadcasting of events to other sockets
   });
 
   socket.on(EVENTS.JOIN_GAME, async function (roomId, playerName) {
-    console.log("JOIN_GAME", roomId, playerName);
-    const joiningUser = new User({ id: socket.id, name: playerName });
+    console.log("JOIN_GAME", socket, socket.rooms, roomId, playerName);
+
+    socket.join(roomId); // Join a socket.io "room" for easier broadcasting of events to other sockets
+
+    const joiningUser = new User({
+      id: socket.id,
+      name: playerName,
+      roomId: roomId,
+    });
     await createUser(joiningUser); //Save this new user to DB
 
     const joinedRoomFromDb = await getRoomById(roomId); //get this room from DB
@@ -62,11 +83,21 @@ io.on("connection", (socket) => {
     console.log("SEND_VOTE", userId, vote);
     await sendVote(userId, vote);
 
+    await emitGameUpdate(roomId);
+  });
+
+  /**
+   * Send out an event to the clients with the updated room object
+   * @param roomId
+   * @returns {Promise<void>}
+   */
+  async function emitGameUpdate(roomId) {
     const roomFromDb = await getRoomById(roomId); //get this room from DB
     const room = new Room(roomFromDb);
-    console.log("New room", roomFromDb, room);
+    console.log("UPDATING GAME", room);
+    io.to(room.id).emit(EVENTS.UPDATE_GAME, room); //Let all other users in the room know that this player has joined successfully
     socket.emit(EVENTS.UPDATE_GAME, room); //Send the updated room to this player
-  });
+  }
 });
 
 httpServer.listen(3001);

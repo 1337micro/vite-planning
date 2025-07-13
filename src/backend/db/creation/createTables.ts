@@ -19,7 +19,11 @@ async function createUserTable() {
     CREATE TABLE IF NOT EXISTS Users (
         id varchar(20) UNIQUE,
         name varchar(128),
-        vote varchar(128)
+        vote varchar(128),
+        roomid uuid,
+        CONSTRAINT fk_roomid
+            FOREIGN KEY(roomid)
+            REFERENCES Rooms(id)
     )
   `;
 }

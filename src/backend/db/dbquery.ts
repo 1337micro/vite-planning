@@ -53,8 +53,26 @@ export async function createUser(user: IUser) {
   console.log("user in saveUser", user);
 
   await sql`
-    INSERT INTO Users (id, name) VALUES (${user.id}, ${user.name})
+    INSERT INTO Users (id, name, roomId) VALUES (${user.id}, ${user.name}, ${user.roomId})
     ON CONFLICT (id) DO NOTHING
+  `;
+}
+export async function getUserById(userId: string) {
+  console.log("getting user", userId);
+  const [user] = await sql`
+      select
+        id, name, vote, roomid
+      from Users
+      where id = ${userId}
+    `;
+  return user;
+}
+
+export async function deleteUser(userId: string) {
+  console.log("deleting user", userId);
+
+  await sql`
+    DELETE FROM Users where id = ${userId}
   `;
 }
 
