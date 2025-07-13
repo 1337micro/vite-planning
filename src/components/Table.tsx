@@ -27,7 +27,7 @@ export function Table(props: TableProps) {
               <VotingCard
                 style={{
                   position: "relative",
-                  left: 30 * userIndex,
+                  left: 30 * userIndex + 30,
                 }}
                 socket={socket}
                 user={user}

@@ -19,6 +19,7 @@ export async function getRoomById(roomId: string) {
         id, name, vote
       from Users
       where id = ANY(${room.userids})
+      order by id
     `;
     }
 
@@ -72,7 +73,7 @@ export async function deleteUser(userId: string) {
   console.log("deleting user", userId);
 
   await sql`
-    DELETE FROM Users where id = ${userId}
+    DELETE FROM Users WHERE id = ${userId}
   `;
 }
 
