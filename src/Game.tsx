@@ -1,4 +1,4 @@
-import type { Socket } from "socket.io";
+import type { Socket } from "socket.io-client";
 import { useParams } from "react-router";
 import Skeleton from "@mui/material/Skeleton";
 import { useJoinRoom } from "./hooks/eventHandlers/useJoinRoom.ts";
@@ -27,7 +27,7 @@ export function Game(props: IGameProps) {
           <VotingBallots
             socket={socket}
             votes={["0", "1", "2", "3", "5", "8", "13"]}
-            roomId={roomId}
+            roomId={roomId || ""}
           />
         </>
       )}

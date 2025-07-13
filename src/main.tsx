@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { SocketContext } from "./context/SocketContext.ts";
 import { Game } from "./Game.tsx";
-import type { Socket } from "socket.io";
+import type { Socket } from "socket.io-client";
 
 import "./index.css";
 

@@ -2,7 +2,7 @@ import Card from "@mui/material/Card";
 import type { IRoom } from "../model/Room.ts";
 import { VotingCard } from "./VotingCard.tsx";
 import Grid from "@mui/material/Grid";
-import type { Socket } from "socket.io";
+import type { Socket } from "socket.io-client";
 
 interface TableProps {
   room: IRoom;

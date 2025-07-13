@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import { getPlayerCardStyle } from "./styles/GetPlayerCardStyle.ts";
-import type { Socket } from "socket.io";
+import type { Socket } from "socket.io-client";
 import type { IUser } from "../model/User.ts";
 import _ from "lodash";
 
@@ -22,7 +22,7 @@ export function VotingCard(props: ICardProps) {
       }}
     >
       <Button sx={getPlayerCardStyle(currentUserSelectedAVote)}>
-        {currentUserSelectedAVote ? user.vote : null}
+        {currentUserSelectedAVote ? user.vote?.vote : null}
       </Button>
       <h3>{user.name}</h3>
     </span>

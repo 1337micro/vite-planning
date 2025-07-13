@@ -1,7 +1,7 @@
 import { useStartGame } from "./hooks/eventHandlers/useStartGame.ts";
 import Button from "@mui/material/Button";
 
-import type { Socket } from "socket.io";
+import type { Socket } from "socket.io-client";
 
 import "./App.css";
 

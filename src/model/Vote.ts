@@ -1,16 +1,14 @@
-import type { IRoom } from "./Room.ts";
-
 export interface IVote {
-  vote: number;
-  room: IRoom;
+  vote: string;
+  roomId: string;
 }
 
 export class Vote implements IVote {
-  vote: number;
-  room: IRoom;
+  vote: string;
+  roomId: string;
 
-  constructor(vote: number, room: IRoom) {
+  constructor(vote: string, roomId: string) {
     this.vote = vote;
-    this.room = room;
+    this.roomId = roomId;
   }
 }
