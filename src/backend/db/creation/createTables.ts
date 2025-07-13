@@ -35,8 +35,8 @@ async function addRevealedColumnToRooms() {
     await sql`
       ALTER TABLE Rooms ADD COLUMN IF NOT EXISTS revealed boolean DEFAULT false
     `;
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Column might already exist or other issue, but we can continue
-    console.log("Note: Could not add revealed column (might already exist):", error?.message || error);
+    console.log("Note: Could not add revealed column (might already exist):", (error as Error)?.message || error);
   }
 }
