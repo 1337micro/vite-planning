@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { NameInput } from "./NameInput.tsx";
 import Grid from "@mui/material/Grid";
+import { Login } from "@mui/icons-material";
 
 interface IJoinModalProps {
   onJoin: (playerName) => void;
@@ -43,9 +44,19 @@ export function JoinModal(props: IJoinModalProps = {}) {
           </Grid>
           <Grid container justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
             <Button
+              variant="contained"
+              size="large"
+              startIcon={<Login />}
               onClick={() => {
                 onJoin(playerName);
                 handleClose();
+              }}
+              sx={{
+                px: 4,
+                py: 2,
+                fontSize: "1.2rem",
+                bgcolor: "#1976d2",
+                "&:hover": { bgcolor: "#1565c0" },
               }}
             >
               Join Game
