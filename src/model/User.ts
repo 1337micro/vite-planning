@@ -1,18 +1,17 @@
-import type { IVote } from "./Vote.ts";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
 export interface IUser {
   id: string;
   name: string;
-  vote: IVote | null;
+  vote: string | null;
   roomId: string | null;
 }
 
 export class User implements IUser {
   id: string;
   name: string;
-  vote: IVote | null;
+  vote: string | null;
   roomId: string | null;
 
   constructor(user?: IUser) {

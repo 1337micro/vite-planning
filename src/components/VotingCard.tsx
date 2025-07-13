@@ -8,12 +8,15 @@ interface ICardProps {
   style?: object;
   socket: Socket;
   user: IUser;
+  revealed?: boolean;
 }
 export function VotingCard(props: ICardProps) {
-  const { style = {}, user, socket } = props;
+  const { style = {}, user, socket, revealed = false } = props;
 
   const isCurrentUser = socket.id === user.id;
   const currentUserSelectedAVote = isCurrentUser && !_.isNil(user.vote);
+  const shouldShowVote = currentUserSelectedAVote || (revealed && !_.isNil(user.vote));
+  
   return (
     <span
       style={{
@@ -21,8 +24,8 @@ export function VotingCard(props: ICardProps) {
         color: isCurrentUser ? "blue" : "black",
       }}
     >
-      <Button sx={getPlayerCardStyle(currentUserSelectedAVote)}>
-        {currentUserSelectedAVote ? user.vote : null}
+      <Button sx={getPlayerCardStyle(shouldShowVote)}>
+        {shouldShowVote ? user.vote : null}
       </Button>
       <h3>{user.name}</h3>
     </span>

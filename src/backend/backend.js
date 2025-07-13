@@ -86,6 +86,17 @@ io.on("connection", (socket) => {
     await emitGameUpdate(roomId);
   });
 
+  socket.on(EVENTS.REVEAL_CARDS, async function (roomId) {
+    console.log("REVEAL_CARDS", roomId);
+    
+    const roomFromDb = await getRoomById(roomId);
+    const room = new Room(roomFromDb);
+    room.revealCards();
+    await saveRoom(room);
+
+    await emitGameUpdate(roomId);
+  });
+
   /**
    * Send out an event to the clients with the updated room object
    * @param roomId
