@@ -1,12 +1,11 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { NameInput } from "./NameInput.tsx";
 
 interface IJoinModalProps {
-  onJoin: (playerName) => void;
+  onJoin: (playerName: string) => void;
 }
 
 const style = {
@@ -21,7 +20,7 @@ const style = {
   p: 4,
 };
 
-export function JoinModal(props: IJoinModalProps = {}) {
+export function JoinModal(props: IJoinModalProps) {
   const { onJoin } = props;
 
   const [open, setOpen] = useState(true);
@@ -41,9 +40,12 @@ export function JoinModal(props: IJoinModalProps = {}) {
           <NameInput onChange={setPlayerName} />
           <Button
             onClick={() => {
-              onJoin(playerName);
-              handleClose();
+              if (playerName) {
+                onJoin(playerName);
+                handleClose();
+              }
             }}
+            disabled={!playerName}
           >
             Join Game
           </Button>
