@@ -12,17 +12,13 @@ export async function getRoomById(roomId: string){
     from Rooms
     where id = ${roomId}
   `
-
-  const listOfUserIds = room.userids?.reduce((prev, curr) => prev+ `"${curr}",`, '')
-
   let users;
-
-  if(listOfUserIds) {
+  if(room.userids) {
     users = await sql`
       select
         id, name, vote
       from Users
-      where id IN (${room.userids})
+      where id = ANY(${room.userids})
     `
   }
 
