@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { NameInput } from "./NameInput.tsx";
+import Grid from "@mui/material/Grid";
 
 interface IJoinModalProps {
   onJoin: (playerName) => void;
@@ -38,15 +39,19 @@ export function JoinModal(props: IJoinModalProps = {}) {
         aria-describedby="Enter the player name you wish to use"
       >
         <Box sx={style}>
-          <NameInput onChange={setPlayerName} />
-          <Button
-            onClick={() => {
-              onJoin(playerName);
-              handleClose();
-            }}
-          >
-            Join Game
-          </Button>
+          <Grid container>
+            <NameInput onChange={setPlayerName} />
+          </Grid>
+          <Grid container>
+            <Button
+              onClick={() => {
+                onJoin(playerName);
+                handleClose();
+              }}
+            >
+              Join Game
+            </Button>
+          </Grid>
         </Box>
       </Modal>
     </div>
