@@ -1,14 +1,8 @@
 # Use postgres/example user/password credentials
-
-networks:
-  default:
-    name: a_network # Use a custom name
-    driver_opts:    # pass options to driver for network creation
-      com.docker.network.bridge.host_binding_ipv4: 127.0.0.1
-
 services:
   db:
     image: postgres
+
     restart: always
     # set shared memory limit when using docker compose
     shm_size: 128mb
@@ -26,6 +20,7 @@ services:
 
   adminer:
     image: adminer
+
     restart: always
     ports:
       - 8080:8080
