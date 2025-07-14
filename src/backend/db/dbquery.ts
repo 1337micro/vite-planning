@@ -43,7 +43,7 @@ export async function saveRoom(room: IRoom) {
 
   await sql`
     UPDATE Rooms
-      SET userids = ${userIds}, revealed = ${room.revealed ?? false}
+      SET userids = ${userIds}, revealed = ${room.revealed}
 
     where id = ${room.id}
   `;
