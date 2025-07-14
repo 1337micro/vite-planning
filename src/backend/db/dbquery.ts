@@ -8,7 +8,7 @@ export async function getRoomById(roomId: string) {
   const [room, users] = await sql.begin(async (sql) => {
     const [room] = await sql`
     select
-      id, userids
+      id, userids, revealed
     from Rooms
     where id = ${roomId}
   `;
@@ -43,7 +43,7 @@ export async function saveRoom(room: IRoom) {
 
   await sql`
     UPDATE Rooms
-      SET userids = ${userIds}
+      SET userids = ${userIds}, revealed = ${room.revealed}
 
     where id = ${room.id}
   `;

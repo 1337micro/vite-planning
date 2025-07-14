@@ -2,7 +2,11 @@ import Card from "@mui/material/Card";
 import type { IRoom } from "../model/Room.ts";
 import { VotingCard } from "./VotingCard.tsx";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 import type { Socket } from "socket.io";
+import { useRevealCards } from "../hooks/eventHandlers/useRevealCards.ts";
+import { useParams } from "react-router";
+import _ from "lodash";
 
 interface TableProps {
   room: IRoom;
@@ -10,8 +14,16 @@ interface TableProps {
 }
 export function Table(props: TableProps) {
   const { room, socket } = props;
+  const { roomId } = useParams();
+  const { revealCards } = useRevealCards(socket);
 
   const users = room?.users;
+  const hasVotes = users?.some(user => !_.isNil(user.vote));
+  const canReveal = hasVotes && !room?.revealed;
+
+  const handleRevealCards = () => {
+    revealCards(roomId!);
+  };
 
   return (
     <div
@@ -23,7 +35,7 @@ export function Table(props: TableProps) {
         {users.map((user, userIndex) => {
           const indexIsEven = userIndex % 2 === 0;
           return indexIsEven ? (
-            <Grid sx={{ marginBottom: 2 }}>
+            <Grid sx={{ marginBottom: 2 }} key={user.id}>
               <VotingCard
                 style={{
                   position: "relative",
@@ -31,6 +43,7 @@ export function Table(props: TableProps) {
                 }}
                 socket={socket}
                 user={user}
+                revealed={room?.revealed}
               />
             </Grid>
           ) : null;
@@ -45,8 +58,22 @@ export function Table(props: TableProps) {
               background: "#d7e9ff",
               height: "15rem",
               width: "34rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          ></Card>
+          >
+            {/* Reveal Cards Button - Now inside the blue table */}
+            {canReveal && (
+              <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={handleRevealCards}
+              >
+                Reveal Cards
+              </Button>
+            )}
+          </Card>
         </Grid>
       </Grid>
 
@@ -54,7 +81,7 @@ export function Table(props: TableProps) {
         {users.map((user, userIndex) => {
           const indexIsEven = userIndex % 2 === 0;
           return !indexIsEven ? (
-            <Grid sx={{ marginTop: 2 }}>
+            <Grid sx={{ marginTop: 2 }} key={user.id}>
               <VotingCard
                 style={{
                   position: "relative",
@@ -62,6 +89,7 @@ export function Table(props: TableProps) {
                 }}
                 socket={socket}
                 user={user}
+                revealed={room?.revealed}
               />
             </Grid>
           ) : null;

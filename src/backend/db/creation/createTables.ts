@@ -3,13 +3,15 @@ import sql from "../db.js";
 export async function createTables() {
   await createRoomTable();
   await createUserTable();
+  await addRevealedColumnToRooms();
 }
 
 async function createRoomTable() {
   await sql`
     CREATE TABLE IF NOT EXISTS Rooms (
         id uuid UNIQUE,
-        userIds varchar(20)[]
+        userIds varchar(20)[],
+        revealed boolean DEFAULT false
     )
   `;
 }
@@ -26,4 +28,15 @@ async function createUserTable() {
             REFERENCES Rooms(id)
     )
   `;
+}
+
+async function addRevealedColumnToRooms() {
+  try {
+    await sql`
+      ALTER TABLE Rooms ADD COLUMN IF NOT EXISTS revealed boolean DEFAULT false
+    `;
+  } catch (error: unknown) {
+    // Column might already exist or other issue, but we can continue
+    console.log("Note: Could not add revealed column (might already exist):", (error as Error)?.message || error);
+  }
 }
