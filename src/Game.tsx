@@ -14,7 +14,7 @@ export function Game(props: IGameProps) {
   const { socket } = props;
   const { roomId } = useParams();
 
-  const { room, joinRoom } = useJoinRoom(socket, roomId);
+  const { room, joinRoom } = useJoinRoom(socket, roomId!);
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
@@ -27,7 +27,7 @@ export function Game(props: IGameProps) {
           <VotingBallots
             socket={socket}
             votes={["0", "1", "2", "3", "5", "8", "13"]}
-            roomId={roomId}
+            roomId={roomId!}
           />
         </>
       )}

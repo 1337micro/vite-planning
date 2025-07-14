@@ -22,9 +22,7 @@ export function Table(props: TableProps) {
   const canReveal = hasVotes && !room?.revealed;
 
   const handleRevealCards = () => {
-    if (roomId) {
-      revealCards(roomId);
-    }
+    revealCards(roomId!);
   };
 
   return (
