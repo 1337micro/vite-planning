@@ -1,5 +1,11 @@
 # Use postgres/example user/password credentials
 
+networks:
+  default:
+    name: a_network # Use a custom name
+    driver_opts:    # pass options to driver for network creation
+      com.docker.network.bridge.host_binding_ipv4: 127.0.0.1
+
 services:
   db:
     image: postgres
@@ -31,3 +37,11 @@ services:
       - 80:80
     volumes:
       - ./src/infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+  vite:
+    restart: always
+    build:
+      context: .
+      dockerfile: ViteDockerfile
+    ports:
+      - "5173:5173"
