@@ -6,11 +6,11 @@ const commonCardStyles = {
   height: 80,
   width: 30,
 };
-export function getPlayerCardStyle(isRevealed?: boolean) {
+export function getPlayerCardStyle(isSelected?: boolean) {
   return {
     ...commonCardStyles,
-    bgcolor: isRevealed ? "#3993ff" : "#e8e9ea",
-    color: isRevealed ? "white" : undefined,
+    bgcolor: isSelected ? "#3993ff" : "#e8e9ea",
+    color: isSelected ? "white" : undefined,
   };
 }
 

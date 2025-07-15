@@ -15,8 +15,9 @@ export function VotingCard(props: ICardProps) {
 
   const isCurrentUser = socket.id === user.id;
   const currentUserSelectedAVote = isCurrentUser && !_.isNil(user.vote);
-  const shouldShowVote = currentUserSelectedAVote || (revealed && !_.isNil(user.vote));
-  
+  const shouldShowVote =
+    currentUserSelectedAVote || (revealed && !_.isNil(user.vote));
+
   return (
     <span
       style={{
@@ -24,7 +25,7 @@ export function VotingCard(props: ICardProps) {
         color: isCurrentUser ? "blue" : "black",
       }}
     >
-      <Button sx={getPlayerCardStyle(shouldShowVote)}>
+      <Button sx={getPlayerCardStyle(!_.isNil(user.vote))}>
         {shouldShowVote ? user.vote : null}
       </Button>
       <h3>{user.name}</h3>
