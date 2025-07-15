@@ -85,3 +85,11 @@ export async function sendVote(userId: string, vote: string) {
     UPDATE Users SET vote = ${vote} WHERE id = ${userId}
   `;
 }
+
+export async function clearAllVotesInRoom(roomId: string) {
+  console.log("clearAllVotesInRoom", roomId);
+
+  await sql`
+    UPDATE Users SET vote = NULL WHERE roomid = ${roomId}
+  `;
+}
