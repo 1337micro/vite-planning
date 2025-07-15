@@ -3,17 +3,21 @@ import Button from "@mui/material/Button";
 import type { Socket } from "socket.io";
 import { useVote } from "../hooks/eventHandlers/useVote.ts";
 import Grid from "@mui/material/Grid";
+import type { IRoom } from "../model/Room.ts";
 
 interface IVotingBallotsProps {
   socket: Socket;
   votes: string[];
   roomId: string;
+  room: IRoom;
 }
 
 export function VotingBallots(props: IVotingBallotsProps) {
-  const { socket, votes, roomId } = props;
+  const { socket, votes, roomId, room } = props;
 
-  const { sendVote, selectedBallot } = useVote(socket, roomId);
+  const thisUser = room?.users.find((user) => user.id === socket.id);
+
+  const { sendVote } = useVote(socket, roomId);
 
   return (
     <Grid container spacing={2}>
@@ -21,7 +25,7 @@ export function VotingBallots(props: IVotingBallotsProps) {
         return (
           <Button
             key={voteNumber}
-            sx={getVotingBallotCardStyle(selectedBallot === voteNumber)}
+            sx={getVotingBallotCardStyle(thisUser?.vote === voteNumber)}
             onClick={() => {
               sendVote(voteNumber);
             }}
