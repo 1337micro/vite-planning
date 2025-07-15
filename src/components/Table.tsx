@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import type { Socket } from "socket.io";
 import { useRevealCards } from "../hooks/eventHandlers/useRevealCards.ts";
+import { useRestartGame } from "../hooks/eventHandlers/useRestartGame.ts";
 import { useParams } from "react-router";
 import _ from "lodash";
 
@@ -16,13 +17,19 @@ export function Table(props: TableProps) {
   const { room, socket } = props;
   const { roomId } = useParams();
   const { revealCards } = useRevealCards(socket);
+  const { restartGame } = useRestartGame(socket);
 
   const users = room?.users;
   const hasVotes = users?.some(user => !_.isNil(user.vote));
   const canReveal = hasVotes && !room?.revealed;
+  const canRestart = room?.revealed;
 
   const handleRevealCards = () => {
     revealCards(roomId!);
+  };
+
+  const handleRestartGame = () => {
+    restartGame(roomId!);
   };
 
   return (
@@ -71,6 +78,17 @@ export function Table(props: TableProps) {
                 onClick={handleRevealCards}
               >
                 Reveal Cards
+              </Button>
+            )}
+            
+            {/* Restart Button - Shows when cards are revealed */}
+            {canRestart && (
+              <Button 
+                variant="contained" 
+                color="secondary" 
+                onClick={handleRestartGame}
+              >
+                Restart
               </Button>
             )}
           </Card>
