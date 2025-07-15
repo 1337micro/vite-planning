@@ -1,7 +1,7 @@
 A Planning Poker Application for Agile teams. See LICENSE.
 
 To run the app:
-1. Open docker desktop then docker compose up
+1. Open docker desktop, docker compose up, vite, nginx
 2. cd .\src\backend
 3. node --import=tsx .\backend.js
 4. Run nginx with the nginx.conf file herein.
