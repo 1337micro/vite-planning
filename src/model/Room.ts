@@ -41,6 +41,10 @@ export class Room implements IRoom {
     this.revealed = true;
   }
 
+  restartGame() {
+    this.revealed = false;
+  }
+
   toDb() {
     return {
       id: this.id,

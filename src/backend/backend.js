@@ -14,6 +14,7 @@ import {
   getUserById,
   saveRoom,
   sendVote,
+  clearAllVotesInRoom,
 } from "./db/dbquery.js";
 
 const app = express();
@@ -92,6 +93,21 @@ io.on("connection", (socket) => {
     const roomFromDb = await getRoomById(roomId);
     const room = new Room(roomFromDb);
     room.revealCards();
+    await saveRoom(room);
+
+    await emitGameUpdate(roomId);
+  });
+
+  socket.on(EVENTS.RESTART_GAME, async function (roomId) {
+    console.log("RESTART_GAME", roomId);
+    
+    // Clear all votes for users in this room
+    await clearAllVotesInRoom(roomId);
+    
+    // Set room revealed status to false
+    const roomFromDb = await getRoomById(roomId);
+    const room = new Room(roomFromDb);
+    room.restartGame();
     await saveRoom(room);
 
     await emitGameUpdate(roomId);
