@@ -1,7 +1,7 @@
 import { useStartGame } from "./hooks/eventHandlers/useStartGame.ts";
 import Button from "@mui/material/Button";
-import { Box, Container, Typography } from "@mui/material";
-import { Casino, PlayArrow } from "@mui/icons-material";
+import { Box, Container, Typography, IconButton } from "@mui/material";
+import { Casino, PlayArrow, GitHub } from "@mui/icons-material";
 
 import type { Socket } from "socket.io";
 
@@ -18,7 +18,29 @@ function App(props: IAppProps) {
   const { startNewGame } = useStartGame(socket);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 4, position: 'relative' }}>
+      {/* GitHub Icon */}
+      <IconButton
+        component="a"
+        href="https://github.com/1337micro/vite-planning"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="View source code on GitHub"
+        sx={{
+          position: 'absolute',
+          top: 16,
+          right: 16,
+          color: '#1976d2',
+          '&:hover': {
+            color: '#1565c0',
+            backgroundColor: 'rgba(25, 118, 210, 0.04)',
+          },
+          zIndex: 10,
+        }}
+      >
+        <GitHub sx={{ fontSize: 32 }} />
+      </IconButton>
+
       {/* Hero Section */}
       <Box sx={{ textAlign: "center", mb: 6 }}>
         <Casino sx={{ fontSize: 60, color: "#1976d2", mb: 2 }} />
