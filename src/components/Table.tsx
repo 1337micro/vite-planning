@@ -20,7 +20,7 @@ export function Table(props: TableProps) {
   const { restartGame } = useRestartGame(socket);
 
   const users = room?.users;
-  const hasVotes = users?.some(user => !_.isNil(user.vote));
+  const hasVotes = users?.some((user) => !_.isNil(user.vote));
   const canReveal = hasVotes && !room?.revealed;
   const canRestart = room?.revealed;
 
@@ -72,20 +72,20 @@ export function Table(props: TableProps) {
           >
             {/* Reveal Cards Button - Now inside the blue table */}
             {canReveal && (
-              <Button 
-                variant="contained" 
-                color="primary" 
+              <Button
+                variant="contained"
+                color="primary"
                 onClick={handleRevealCards}
               >
                 Reveal Cards
               </Button>
             )}
-            
+
             {/* Restart Button - Shows when cards are revealed */}
             {canRestart && (
-              <Button 
-                variant="contained" 
-                color="secondary" 
+              <Button
+                variant="contained"
+                color="primary"
                 onClick={handleRestartGame}
               >
                 Restart

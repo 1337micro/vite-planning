@@ -40,6 +40,8 @@ export class Room implements IRoom {
 
   addUserToGame(user: IUser) {
     this.users.push(user);
+    //resort the users array by socket id
+    this.users.sort((a, b) => a.id.localeCompare(b.id));
   }
 
   revealCards() {
