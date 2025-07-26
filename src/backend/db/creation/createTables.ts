@@ -1,3 +1,4 @@
+// @ts-expect-error the db file has no type declarations
 import sql from "../db.js";
 
 export async function createTables() {
@@ -38,7 +39,10 @@ async function addRevealedColumnToRooms() {
     `;
   } catch (error: unknown) {
     // Column might already exist or other issue, but we can continue
-    console.log("Note: Could not add revealed column (might already exist):", (error as Error)?.message || error);
+    console.log(
+      "Note: Could not add revealed column (might already exist):",
+      (error as Error)?.message || error,
+    );
   }
 }
 
@@ -49,6 +53,9 @@ async function addVotesColumnToRooms() {
     `;
   } catch (error: unknown) {
     // Column might already exist or other issue, but we can continue
-    console.log("Note: Could not add votes column (might already exist):", (error as Error)?.message || error);
+    console.log(
+      "Note: Could not add votes column (might already exist):",
+      (error as Error)?.message || error,
+    );
   }
 }
