@@ -16,8 +16,8 @@ export function Game(props: IGameProps) {
 
   const { room, joinRoom } = useJoinRoom(socket, roomId!);
 
-  const handleJoin = (playerName: string, votes?: string[]) => {
-    joinRoom(playerName, votes);
+  const handleJoin = (playerName: string) => {
+    joinRoom(playerName);
   };
 
   return (

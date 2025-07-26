@@ -1,7 +1,8 @@
 import { useStartGame } from "./hooks/eventHandlers/useStartGame.ts";
 import Button from "@mui/material/Button";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, TextField } from "@mui/material";
 import { Casino, PlayArrow } from "@mui/icons-material";
+import { useState } from "react";
 
 import type { Socket } from "socket.io";
 
@@ -16,6 +17,20 @@ function App(props: IAppProps) {
 
   console.log("socket ", socket);
   const { startNewGame } = useStartGame(socket);
+  
+  const [votesInput, setVotesInput] = useState<string>("0,1,2,3,5,8,13");
+
+  const parseVotes = (votesString: string): string[] => {
+    return votesString
+      .split(",")
+      .map(vote => vote.trim())
+      .filter(vote => vote.length > 0);
+  };
+
+  const handleStartNewGame = () => {
+    const votes = parseVotes(votesInput);
+    startNewGame(votes);
+  };
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -43,11 +58,25 @@ function App(props: IAppProps) {
           real-time.
         </Typography>
 
+        {/* Voting Options Input */}
+        <Box sx={{ mb: 3, maxWidth: 400, mx: "auto" }}>
+          <TextField
+            id="votes"
+            label="Voting Options (comma-separated)"
+            variant="outlined"
+            value={votesInput}
+            onChange={(event) => setVotesInput(event.target.value)}
+            fullWidth
+            helperText="Enter vote values separated by commas (e.g., 0,1,2,3,5,8,13)"
+          />
+        </Box>
+
         <Button
           variant="contained"
           size="large"
           startIcon={<PlayArrow />}
-          onClick={() => startNewGame()}
+          onClick={handleStartNewGame}
+          disabled={!votesInput}
           sx={{
             px: 4,
             py: 2,
