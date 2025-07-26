@@ -20,7 +20,11 @@ import {
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  /* options */
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
 });
 
 createTables()
@@ -75,10 +79,6 @@ io.on("connection", (socket) => {
     
     // Set custom votes if provided
     if (customVotes && Array.isArray(customVotes) && customVotes.length > 0) {
-      if (customVotes.length > 20) {
-        socket.emit(EVENTS.ERROR, { message: "Maximum 20 voting options allowed" });
-        return;
-      }
       joinedRoom.votes = customVotes;
     }
     

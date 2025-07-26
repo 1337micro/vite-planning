@@ -3,14 +3,12 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import Alert from "@mui/material/Alert";
 import { NameInput } from "./NameInput.tsx";
 import Grid from "@mui/material/Grid";
 import { Login } from "@mui/icons-material";
 
 interface IJoinModalProps {
   onJoin: (playerName: string, votes?: string[]) => void;
-  error?: string;
 }
 
 const style = {
@@ -26,33 +24,19 @@ const style = {
 };
 
 export function JoinModal(props: IJoinModalProps) {
-  const { onJoin, error: serverError } = props;
+  const { onJoin } = props;
 
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
 
   const [playerName, setPlayerName] = useState<string>("");
   const [votesInput, setVotesInput] = useState<string>("0,1,2,3,5,8,13");
-  const [votesError, setVotesError] = useState<string>("");
 
   const parseVotes = (votesString: string): string[] => {
     return votesString
       .split(",")
       .map(vote => vote.trim())
       .filter(vote => vote.length > 0);
-  };
-
-  const validateVotes = (votesString: string): string => {
-    const votes = parseVotes(votesString);
-    if (votes.length > 20) {
-      return "Maximum 20 voting options allowed";
-    }
-    return "";
-  };
-
-  const handleVotesChange = (value: string) => {
-    setVotesInput(value);
-    setVotesError(validateVotes(value));
   };
 
   return (
@@ -64,13 +48,6 @@ export function JoinModal(props: IJoinModalProps) {
         aria-describedby="Enter the player name you wish to use"
       >
         <Box sx={style}>
-          {serverError && (
-            <Grid container justifyContent="center" alignItems="center" sx={{ mb: 2 }}>
-              <Alert severity="error" sx={{ width: '100%' }}>
-                {serverError}
-              </Alert>
-            </Grid>
-          )}
           <Grid container justifyContent="center" alignItems="center">
             <NameInput onChange={setPlayerName} />
           </Grid>
@@ -80,10 +57,9 @@ export function JoinModal(props: IJoinModalProps) {
               label="Voting Options (comma-separated)"
               variant="outlined"
               value={votesInput}
-              onChange={(event) => handleVotesChange(event.target.value)}
+              onChange={(event) => setVotesInput(event.target.value)}
               fullWidth
-              error={!!votesError}
-              helperText={votesError || "Enter vote values separated by commas (e.g., 0,1,2,3,5,8,13). Maximum 20 options."}
+              helperText="Enter vote values separated by commas (e.g., 0,1,2,3,5,8,13)"
             />
           </Grid>
           <Grid container justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
@@ -96,7 +72,7 @@ export function JoinModal(props: IJoinModalProps) {
                 onJoin(playerName, votes);
                 handleClose();
               }}
-              disabled={!playerName || !votesInput || !!votesError}
+              disabled={!playerName || !votesInput}
               sx={{
                 px: 4,
                 py: 2,
