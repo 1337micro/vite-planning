@@ -4,8 +4,8 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { EVENTS } from "../constants/Constants.ts";
 import { Room } from "../model/Room.ts";
-import { User } from "../model/User.js";
-import { createTables } from "./db/creation/createTables";
+import { User } from "../model/User.ts";
+import { createTables } from "./db/creation/createTables.ts";
 import {
   createRoom,
   createUser,
@@ -15,7 +15,7 @@ import {
   saveRoom,
   sendVote,
   clearAllVotesInRoom,
-} from "./db/dbquery.js";
+} from "./db/dbquery.ts";
 
 const app = express();
 const httpServer = createServer(app);
@@ -50,9 +50,15 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on(EVENTS.START_GAME, async function () {
-    console.log("Start Game");
+  socket.on(EVENTS.START_GAME, async function (customVotes) {
+    console.log("Start Game", customVotes);
     const room = new Room();
+    
+    // Set custom votes if provided
+    if (customVotes && Array.isArray(customVotes) && customVotes.length > 0) {
+      room.votes = customVotes;
+    }
+    
     //save game to database
     await createRoom(room);
     socket.emit(EVENTS.GAME_STARTED, room);
@@ -72,6 +78,7 @@ io.on("connection", (socket) => {
 
     const joinedRoomFromDb = await getRoomById(roomId); //get this room from DB
     const joinedRoom = new Room(joinedRoomFromDb);
+    
     joinedRoom.addUserToGame(joiningUser);
     console.log("joinedRoom", joinedRoom);
     await saveRoom(joinedRoom);

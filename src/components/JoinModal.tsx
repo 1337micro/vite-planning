@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import { Login } from "@mui/icons-material";
 
 interface IJoinModalProps {
-  onJoin: (playerName) => void;
+  onJoin: (playerName: string) => void;
 }
 
 const style = {
@@ -22,13 +22,13 @@ const style = {
   p: 4,
 };
 
-export function JoinModal(props: IJoinModalProps = {}) {
+export function JoinModal(props: IJoinModalProps) {
   const { onJoin } = props;
 
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
 
-  const [playerName, setPlayerName] = useState<string>();
+  const [playerName, setPlayerName] = useState<string>("");
 
   return (
     <div>
@@ -51,6 +51,7 @@ export function JoinModal(props: IJoinModalProps = {}) {
                 onJoin(playerName);
                 handleClose();
               }}
+              disabled={!playerName}
               sx={{
                 px: 4,
                 py: 2,

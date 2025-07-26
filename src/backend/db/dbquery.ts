@@ -8,7 +8,7 @@ export async function getRoomById(roomId: string) {
   const [room, users] = await sql.begin(async (sql) => {
     const [room] = await sql`
     select
-      id, userids, revealed
+      id, userids, revealed, votes
     from Rooms
     where id = ${roomId}
   `;
@@ -33,7 +33,7 @@ export async function getRoomById(roomId: string) {
 export async function createRoom(room: IRoom) {
   console.log("room in createRoom", room);
   await sql`
-    INSERT INTO Rooms (id) VALUES (${room.id})
+    INSERT INTO Rooms (id, votes) VALUES (${room.id}, ${room.votes})
   `;
 }
 
@@ -43,7 +43,7 @@ export async function saveRoom(room: IRoom) {
 
   await sql`
     UPDATE Rooms
-      SET userids = ${userIds}, revealed = ${room.revealed}
+      SET userids = ${userIds}, revealed = ${room.revealed}, votes = ${room.votes}
 
     where id = ${room.id}
   `;
