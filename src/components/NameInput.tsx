@@ -1,9 +1,9 @@
 import TextField from "@mui/material/TextField";
 
 interface INameInputProps {
-  onChange: (event) => void;
+  onChange: (value: string) => void;
 }
-export function NameInput(props: INameInputProps = {}) {
+export function NameInput(props: INameInputProps) {
   const { onChange } = props;
 
   return (

@@ -22,12 +22,17 @@ export function VotingBallots(props: IVotingBallotsProps) {
   return (
     <Grid container spacing={2}>
       {votes.map((voteNumber) => {
+        const thisButtonIsSelected = thisUser?.vote === voteNumber;
         return (
           <Button
             key={voteNumber}
-            sx={getVotingBallotCardStyle(thisUser?.vote === voteNumber)}
+            sx={getVotingBallotCardStyle(thisButtonIsSelected)}
             onClick={() => {
-              sendVote(voteNumber);
+              if (thisButtonIsSelected) {
+                sendVote("?"); //Vote deselected - Send a question mark placeholder
+              } else {
+                sendVote(voteNumber);
+              }
             }}
           >
             {voteNumber}

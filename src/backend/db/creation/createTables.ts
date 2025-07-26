@@ -4,6 +4,7 @@ export async function createTables() {
   await createRoomTable();
   await createUserTable();
   await addRevealedColumnToRooms();
+  await addVotesColumnToRooms();
 }
 
 async function createRoomTable() {
@@ -38,5 +39,16 @@ async function addRevealedColumnToRooms() {
   } catch (error: unknown) {
     // Column might already exist or other issue, but we can continue
     console.log("Note: Could not add revealed column (might already exist):", (error as Error)?.message || error);
+  }
+}
+
+async function addVotesColumnToRooms() {
+  try {
+    await sql`
+      ALTER TABLE Rooms ADD COLUMN IF NOT EXISTS votes varchar(20)[] DEFAULT ARRAY['0','1','2','3','5','8','13']
+    `;
+  } catch (error: unknown) {
+    // Column might already exist or other issue, but we can continue
+    console.log("Note: Could not add votes column (might already exist):", (error as Error)?.message || error);
   }
 }

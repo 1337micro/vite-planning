@@ -15,7 +15,6 @@ export function useJoinRoom(socket: Socket, roomId?: string) {
   });
 
   socket.on(EVENTS.UPDATE_GAME, (room: IRoom) => {
-    console.log("UPDATING GAME", EVENTS.UPDATE_GAME);
     setRoom(room);
   });
 
