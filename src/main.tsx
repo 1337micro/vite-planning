@@ -9,6 +9,7 @@ import type { Socket } from "socket.io";
 
 import "./index.css";
 
+// @ts-expect-error Socket does not have a well defined type in the io library. We just force it to the generic "Socket" type
 const socket: Socket = io(`http://${window.location.hostname}:80`);
 
 socket.on("connect", () => {

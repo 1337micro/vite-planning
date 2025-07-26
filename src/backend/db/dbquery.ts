@@ -1,3 +1,4 @@
+// @ts-expect-error the db file has no type declarations
 import sql from "./db.js";
 import type { IRoom } from "../../model/Room.ts";
 import type { IUser } from "../../model/User.ts";
@@ -5,6 +6,7 @@ import type { IUser } from "../../model/User.ts";
 //Room management
 export async function getRoomById(roomId: string) {
   console.log("roomId in getRoomById", roomId);
+  // @ts-expect-error the db file has no type declarations
   const [room, users] = await sql.begin(async (sql) => {
     const [room] = await sql`
     select
