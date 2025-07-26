@@ -1,6 +1,5 @@
 import { EVENTS } from "../../constants/Constants.ts";
 import type { Socket } from "socket.io";
-import { useState } from "react";
 
 export function useVote(socket: Socket, roomId: string) {
   console.log("useVote RoomId", socket);
