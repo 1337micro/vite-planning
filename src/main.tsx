@@ -9,7 +9,7 @@ import type { Socket } from "socket.io";
 
 import "./index.css";
 
-const socket: Socket = io(`http://${window.location.hostname}:80`);
+const socket: Socket = io(`http://${window.location.hostname}:3001`);
 
 socket.on("connect", () => {
   console.log("Socket Connected", socket.id); // x8WIv7-mJelg7on_ALbx

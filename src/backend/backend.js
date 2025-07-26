@@ -4,8 +4,8 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { EVENTS } from "../constants/Constants.ts";
 import { Room } from "../model/Room.ts";
-import { User } from "../model/User.js";
-import { createTables } from "./db/creation/createTables";
+import { User } from "../model/User.ts";
+import { createTables } from "./db/creation/createTables.ts";
 import {
   createRoom,
   createUser,
@@ -15,12 +15,16 @@ import {
   saveRoom,
   sendVote,
   clearAllVotesInRoom,
-} from "./db/dbquery.js";
+} from "./db/dbquery.ts";
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  /* options */
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
 });
 
 createTables()
