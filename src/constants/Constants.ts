@@ -11,4 +11,6 @@ export const EVENTS = {
 
   REVEAL_CARDS: "REVEAL_CARDS",
   RESTART_GAME: "RESTART_GAME",
+  
+  ERROR: "ERROR",
 };

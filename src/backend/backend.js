@@ -79,6 +79,10 @@ io.on("connection", (socket) => {
     
     // Set custom votes if provided
     if (customVotes && Array.isArray(customVotes) && customVotes.length > 0) {
+      if (customVotes.length > 20) {
+        socket.emit(EVENTS.ERROR, { message: "Maximum 20 voting options allowed" });
+        return;
+      }
       joinedRoom.votes = customVotes;
     }
     
