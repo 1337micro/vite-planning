@@ -10,7 +10,6 @@ export function useStartGame(socket: Socket) {
   };
 
   socket.on(EVENTS.GAME_STARTED, (room) => {
-    console.log("redirecting to ", room.id);
     navigate(`/${room.id}`);
   });
 

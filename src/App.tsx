@@ -22,7 +22,6 @@ interface IAppProps {
 function App(props: IAppProps) {
   const { socket } = props;
 
-  console.log("socket ", socket);
   const { startNewGame } = useStartGame(socket);
 
   const [votesInput, setVotesInput] = useState<string>("0,1,2,3,5,8,13");

@@ -27,8 +27,7 @@ export function VotingBallots(props: IVotingBallotsProps) {
           <Button
             key={voteNumber}
             sx={getVotingBallotCardStyle(thisButtonIsSelected)}
-            onClick={(e) => {
-              console.log(e);
+            onClick={() => {
               if (thisButtonIsSelected) {
                 sendVote("?"); //Vote deselected - Send a question mark placeholder
               } else {
