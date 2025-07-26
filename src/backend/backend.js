@@ -58,8 +58,8 @@ io.on("connection", (socket) => {
     socket.emit(EVENTS.GAME_STARTED, room);
   });
 
-  socket.on(EVENTS.JOIN_GAME, async function (roomId, playerName) {
-    console.log("JOIN_GAME", socket, socket.rooms, roomId, playerName);
+  socket.on(EVENTS.JOIN_GAME, async function (roomId, playerName, customVotes) {
+    console.log("JOIN_GAME", socket, socket.rooms, roomId, playerName, customVotes);
 
     socket.join(roomId); // Join a socket.io "room" for easier broadcasting of events to other sockets
 
@@ -72,6 +72,12 @@ io.on("connection", (socket) => {
 
     const joinedRoomFromDb = await getRoomById(roomId); //get this room from DB
     const joinedRoom = new Room(joinedRoomFromDb);
+    
+    // Set custom votes if provided
+    if (customVotes && Array.isArray(customVotes) && customVotes.length > 0) {
+      joinedRoom.votes = customVotes;
+    }
+    
     joinedRoom.addUserToGame(joiningUser);
     console.log("joinedRoom", joinedRoom);
     await saveRoom(joinedRoom);

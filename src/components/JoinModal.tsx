@@ -2,12 +2,13 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
 import { NameInput } from "./NameInput.tsx";
 import Grid from "@mui/material/Grid";
 import { Login } from "@mui/icons-material";
 
 interface IJoinModalProps {
-  onJoin: (playerName) => void;
+  onJoin: (playerName: string, votes?: string[]) => void;
 }
 
 const style = {
@@ -22,13 +23,21 @@ const style = {
   p: 4,
 };
 
-export function JoinModal(props: IJoinModalProps = {}) {
+export function JoinModal(props: IJoinModalProps) {
   const { onJoin } = props;
 
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
 
-  const [playerName, setPlayerName] = useState<string>();
+  const [playerName, setPlayerName] = useState<string>("");
+  const [votesInput, setVotesInput] = useState<string>("0,1,2,3,5,8,13");
+
+  const parseVotes = (votesString: string): string[] => {
+    return votesString
+      .split(",")
+      .map(vote => vote.trim())
+      .filter(vote => vote.length > 0);
+  };
 
   return (
     <div>
@@ -43,14 +52,27 @@ export function JoinModal(props: IJoinModalProps = {}) {
             <NameInput onChange={setPlayerName} />
           </Grid>
           <Grid container justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
+            <TextField
+              id="votes"
+              label="Voting Options (comma-separated)"
+              variant="outlined"
+              value={votesInput}
+              onChange={(event) => setVotesInput(event.target.value)}
+              fullWidth
+              helperText="Enter vote values separated by commas (e.g., 0,1,2,3,5,8,13)"
+            />
+          </Grid>
+          <Grid container justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
             <Button
               variant="contained"
               size="large"
               startIcon={<Login />}
               onClick={() => {
-                onJoin(playerName);
+                const votes = parseVotes(votesInput);
+                onJoin(playerName, votes);
                 handleClose();
               }}
+              disabled={!playerName || !votesInput}
               sx={{
                 px: 4,
                 py: 2,

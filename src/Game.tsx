@@ -16,9 +16,13 @@ export function Game(props: IGameProps) {
 
   const { room, joinRoom } = useJoinRoom(socket, roomId!);
 
+  const handleJoin = (playerName: string, votes?: string[]) => {
+    joinRoom(playerName, votes);
+  };
+
   return (
     <div style={{ height: "100%", width: "100%" }}>
-      <JoinModal onJoin={joinRoom} />
+      <JoinModal onJoin={handleJoin} />
       {_.isNil(room) ? (
         <Skeleton />
       ) : (
@@ -27,7 +31,7 @@ export function Game(props: IGameProps) {
           <VotingBallots
             socket={socket}
             room={room}
-            votes={["0", "1", "2", "3", "5", "8", "13"]}
+            votes={room.votes || ["0", "1", "2", "3", "5", "8", "13"]}
             roomId={roomId!}
           />
         </>
