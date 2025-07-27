@@ -1,5 +1,7 @@
 A Planning Poker Application for Agile teams. See LICENSE.
 
+Click to play: http://agilepoker.online/
+
 To run the app for production:
 1. Get the .env file and place it in src/backend
 2. Checkout the branch "docker"
